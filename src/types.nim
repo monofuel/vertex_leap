@@ -28,13 +28,13 @@ type
     temperature*: float
     topP*: float
     topK*: int
-    candidateCount*: int
-    maxOutputTokens*: int
-    stopSequences*: seq[string]
+    candidateCount*: Option[int]
+    maxOutputTokens*: Option[int]
+    stopSequences*: Option[seq[string]]
   GeminiProContents* = ref object
     role*: string
     parts*: seq[GeminiProTextPart]
-  GeminiProRequest* = object
+  GeminiProRequest* = ref object
     contents*: seq[GeminiProContents]
     systemInstruction*: Option[GeminiProSystemInstruction]
     safetySettings*: GeminiProSafetySettings
@@ -63,4 +63,3 @@ type
   GeminiProResponse* = ref object
     candidates*: seq[GeminiProCandidate]
     usageMetadata*: GeminiProUsageMetadata
-
