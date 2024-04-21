@@ -1,7 +1,8 @@
-# You can use this nim template to jump start your nim library or project.
+# vertex_leap
 
-This template includes:
-* MIT licence
-* src directory and a private common.nim
-* test directory
-* GitHub Actions to run the tests on GitHub
+- Nim library to work with Vertex AI
+
+## Testing
+
+- A GCP Service account with access to Vertex AI is required to run the tests.
+- a service account is expected at tests/service_account.json
