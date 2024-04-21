@@ -10,6 +10,7 @@ type
     tokenUri*: string
   VertexAIAPI* = ref object
     curlPool*: CurlPool
+    curlTimeout*: float32
     location*: string # location for vertex AI Project
     credentials*: GCPCredentials # GCP service account credentials
     authLock*: Lock # Lock for auth token generation
@@ -37,7 +38,7 @@ type
   GeminiProRequest* = ref object
     contents*: seq[GeminiProContents]
     systemInstruction*: Option[GeminiProSystemInstruction]
-    safetySettings*: GeminiProSafetySettings
+    safetySettings*: seq[GeminiProSafetySettings]
     generationConfig*: GeminiProGenerationConfig
   GeminiProSafetyRating* = ref object
     category*: string # TODO enum

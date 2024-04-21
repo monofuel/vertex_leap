@@ -52,10 +52,10 @@ suite "serialization":
         "text": "Give me a recipe for banana bread."
     }]
   }],
-  "safetySettings": {
+  "safetySettings": [{
     "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
     "threshold": "BLOCK_LOW_AND_ABOVE"
-  },
+  }],
   "generationConfig": {
     "temperature": 0.2,
     "topP": 0.8,
@@ -66,41 +66,40 @@ suite "serialization":
       let req = fromJson(str, GeminiProRequest)
       assert req.contents[0].role == "user"
       assert req.contents[0].parts.len == 1
-      echo "TOJSON"
       let jsonStr = toJson(req)
       validateJsonStrings(str, jsonStr)
 
-#     test "user2":
-#       let str = """
-# {
-#   "contents": [
-#     {
-#       "role": "USER",
-#       "parts": [{ "text": "Hello!" }]
-#     },
-#     {
-#       "role": "MODEL",
-#       "parts": [{ "text": "Argh! What brings ye to my ship?" }]
-#     },
-#     {
-#       "role": "USER",
-#       "parts": [{ "text": "Wow! You are a real-life priate!" }]
-#     }
-#   ],
-#   "safetySettings": {
-#     "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-#     "threshold": "BLOCK_LOW_AND_ABOVE"
-#   },
-#   "generationConfig": {
-#     "temperature": 0.2,
-#     "topP": 0.8,
-#     "topK": 40,
-#     "maxOutputTokens": 200,
-#   }
-# }
-# """
-#       let req = fromJson(str, GeminiProRequest)
-#       assert req.contents[0].role == "USER"
-#       assert req.contents.len == 3
-#       let jsonStr = toJson(req)
-#       validateJsonStrings(str, jsonStr)
+    test "user2":
+      let str = """
+{
+  "contents": [
+    {
+      "role": "USER",
+      "parts": [{ "text": "Hello!" }]
+    },
+    {
+      "role": "MODEL",
+      "parts": [{ "text": "Argh! What brings ye to my ship?" }]
+    },
+    {
+      "role": "USER",
+      "parts": [{ "text": "Wow! You are a real-life priate!" }]
+    }
+  ],
+  "safetySettings": [{
+    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+    "threshold": "BLOCK_LOW_AND_ABOVE"
+  }],
+  "generationConfig": {
+    "temperature": 0.2,
+    "topP": 0.8,
+    "topK": 40,
+    "maxOutputTokens": 200,
+  }
+}
+"""
+      let req = fromJson(str, GeminiProRequest)
+      assert req.contents[0].role == "USER"
+      assert req.contents.len == 3
+      let jsonStr = toJson(req)
+      validateJsonStrings(str, jsonStr)
