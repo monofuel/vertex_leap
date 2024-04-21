@@ -3,6 +3,7 @@ import vertex_leap, jsony, std/[unittest, options, os]
 # Fine tuning Gemini Pro
 # Important: this test is very very slow
 # there is a default quota limit of "Global concurrent tuning jobs" = 1
+# took about 1 hour to complete
 
 # you can find tuning jobs in the Vertex AI console
 # https://console.cloud.google.com/vertex-ai/generative/language/tuning?hl=en
