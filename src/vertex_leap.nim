@@ -83,7 +83,7 @@ proc geminiProGenerate*(api: VertexAIAPI, model: string, req: GeminiProRequest):
   let resp = api.post(url, reqStr)
   result = fromJson(resp.body, GeminiProResponse)
 
-proc geminiProGenerate*(api: VertexAIAPI, model: string, prompt: string): string =
+proc geminiProGenerate*(api: VertexAIAPI, model: string, prompt: string, system: string = "", image: string = ""): string =
   ## Simplified version of geminiProGenerate for text generation
   
   let req = GeminiProRequest(
@@ -96,16 +96,34 @@ proc geminiProGenerate*(api: VertexAIAPI, model: string, prompt: string): string
       GeminiProContents(
         role: "user",
         parts: @[
-          GeminiProTextPart(text: prompt)
+          GeminiProContentPart(text: option(prompt))
         ]
       )
     ]
   )
+
+  if system != "":
+    req.systemInstruction = option(
+      GeminiProSystemInstruction(
+        parts: @[GeminiProContentPart(text: option(system))]
+      )
+    )
+  if image != "":
+    let imgPart =
+        GeminiProContentPart(
+          fileData: option(GeminiProFileData(
+            mimeType: "image/jpeg",
+            fileUri: image
+          ))
+        )
+    req.contents[0].parts.add(imgPart)
+
   let resp = geminiProGenerate(api, model, req)
   result = ""
   assert resp.candidates.len == 1
   for part in resp.candidates[0].content.parts:
-    result.add(part.text)
+    # responses are always text parts
+    result.add(part.text.get)
 
 
 

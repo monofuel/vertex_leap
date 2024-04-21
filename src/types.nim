@@ -18,12 +18,12 @@ type
     MEDIUM,
     HIGH
   GeminiProFinishReason* = enum
-    FINISH_REASON_UNSPECIFIED,
-    FINISH_REASON_STOP,
-    FINISH_REASON_MAX_TOKENS,
-    FINISH_REASON_SAFETY,
-    FINISH_REASON_RECITATION,
-    FINISH_REASON_OTHER
+    UNSPECIFIED,
+    STOP,
+    MAX_TOKENS,
+    SAFETY,
+    RECITATION,
+    OTHER
 
   GCPCredentials* = ref object
     projectId*: string
@@ -47,21 +47,21 @@ type
     data*: string
   GeminiProFileData* = ref object
     mimeType*: string
-    uri*: string
+    fileUri*: string
   VideoOffset* = ref object
     seconds*: int
     nanos*: int
   GeminiProVideoMetadata* = ref object
     startOffset*: VideoOffset
     endOffset*: VideoOffset
-  GeminiProTextPart* = ref object
+  GeminiProContentPart* = ref object
     # These 3 fields form a union, only one should be set
     text*: Option[string]
     inlineData*: Option[GeminiProInlineData]
     fileData*: Option[GeminiProFileData]
   GeminiProSystemInstruction* = ref object
     role*: string # this field is ignored
-    parts*: seq[GeminiProTextPart]
+    parts*: seq[GeminiProContentPart]
   GeminiProSafetySettings* = ref object
     category*: SafetyCategory
     threshold*: SafetyThreshold
@@ -75,7 +75,7 @@ type
     responseMimeType*: Option[string] # either "text/plain" or "application/json"
   GeminiProContents* = ref object
     role*: string
-    parts*: seq[GeminiProTextPart]
+    parts*: seq[GeminiProContentPart]
   GeminiProFunction* = ref object
     name*: string
     description*: string
@@ -84,13 +84,15 @@ type
     functionDescription*: seq[GeminiProFunction]
   GeminiProRequest* = ref object
     contents*: seq[GeminiProContents]
-    systemInstruction*: Option[GeminiProSystemInstruction]
+    systemInstruction*: Option[GeminiProSystemInstruction] # not all models on vertex support this
     tools*: Option[seq[GeminiProTool]]
     safetySettings*: seq[GeminiProSafetySettings]
     generationConfig*: GeminiProGenerationConfig
   GeminiProSafetyRating* = ref object
     category*: SafetyCategory
     probability*: SafetyProbability
+    severity*: string # TODO enum
+    severityScore*: float
     blocked*: bool
   GeminiProCitationDate* = ref object
     year*, month*, day*: int
@@ -101,7 +103,7 @@ type
   GeminiProCitationMetadata* = ref object
     citations*: seq[GeminiProCitation]
   GeminiProCandidateContent* = ref object
-    parts*: seq[GeminiProTextPart]
+    parts*: seq[GeminiProContentPart]
   GeminiProCandidate* = ref object
     content*: GeminiProCandidateContent
     finishReason*: GeminiProFinishReason
@@ -112,3 +114,4 @@ type
   GeminiProResponse* = ref object
     candidates*: seq[GeminiProCandidate]
     usageMetadata*: GeminiProUsageMetadata
+    error*: JsonNode
