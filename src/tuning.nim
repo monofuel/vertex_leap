@@ -7,11 +7,11 @@ import std/[json, strformat, strutils, options], jsony, ./types, ./client
 
 # the supervised training set is a jsonl file
 type
-  FineTuneMessage* = ref object
+  VertexFineTuneMessage* = ref object
     role*: string # system, user, or model
     content*: string
-  FineTuneChat* = ref object
-    messages*: seq[FineTuneMessage]
+  VertexFineTuneChat* = ref object
+    messages*: seq[VertexFineTuneMessage]
 
 # create resp
 # {
