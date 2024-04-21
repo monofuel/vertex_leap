@@ -22,8 +22,8 @@ suite "palm2":
     test "get":
       let prompt = "Please talk like a pirate. you are Longbeard the Llama."
       let resp = vertexai.geckoTextEmbed(Gecko, prompt)
-      # echo resp.len
-      # var sum: float = 0
-      # for i in resp:
-      #   sum += i
-      # echo sum
+      echo resp.len
+      var sum: float = 0
+      for i in resp:
+        sum += i
+      echo sum
