@@ -113,6 +113,7 @@ proc geminiProGenerate*(api: VertexAIAPI, model: string, req: GeminiProRequest):
 
 proc geminiProGenerate*(api: VertexAIAPI, model: string, prompt: string, system: string = "", image: string = ""): string =
   ## Simplified version of geminiProGenerate for text generation
+  ## image must be a gs:// uri
   
   let req = GeminiProRequest(
     generationConfig: GeminiProGenerationConfig(
