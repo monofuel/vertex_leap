@@ -1,4 +1,4 @@
-version     = "0.0.5"
+version     = "1.0.0"
 author      = "Andrew Brower"
 description = "VertexAI library for Nim"
 license     = "MIT"
