@@ -20,7 +20,7 @@ type
     tokenCount*: int
   GeckoEmbedding* = ref object
     statistics*: GeckoStatistics
-    values*: seq[float]
+    values*: seq[float64]
   GeckoPrediction* = ref object
     embeddings*: GeckoEmbedding
   GeckoMetadata* = ref object
